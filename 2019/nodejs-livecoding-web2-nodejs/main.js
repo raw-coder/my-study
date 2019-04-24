@@ -1,6 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 const url = require('url');
+const qs = require('querystring');
 
 const templateHTML = (title, list, body) => {
   return `
@@ -13,6 +14,7 @@ const templateHTML = (title, list, body) => {
   <body>
     <h1><a href="/">WEB</a></h1>
     ${list}
+    <a href="/create">Create</a>
     ${body}    
   </body>
   </html>
@@ -56,6 +58,44 @@ const app = http.createServer(function (request, response) {
         });
       });
     }
+  } else if(pathname === '/create') {
+    const title = 'Web - create';
+    fs.readdir('./data', (err, files) => {
+      const list = templateList(files);
+      const template = templateHTML(title, list, `
+      <form action="http://localhost:3000/create_process" method="post">
+        <p><input type="text" name="title" placeholder="title"></p>
+        <p>
+          <textarea name="description" placeholder="description"></textarea>
+        </p>
+        <p>
+          <input type="submit">
+        </p>
+      </form>
+      `);
+      response.writeHead(200);
+      response.end(template);
+    });
+  } else if(pathname === '/create_process') {
+    let body = '';
+
+    request.on('data', (data) => {
+      body = body + data;
+    });
+
+    request.on('end', () => {
+      let post = qs.parse(body);
+      let title = post.title;
+      let description = post.description
+      fs.writeFile(`./data/${title}`, description, 'utf-8', (err) => {
+        response.writeHead(302, {
+          Location: `/?id=${title}`
+        });
+        response.end();
+      })
+    });
+
+
   } else {
     response.writeHead(404);
     response.end('Not found');
