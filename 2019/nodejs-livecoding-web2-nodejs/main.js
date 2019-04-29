@@ -56,7 +56,11 @@ const app = http.createServer(function (request, response) {
           const list = templateList(files);
           const template = templateHTML(title, list,
             `<h2>${title}</h2><p>${description}</p>`,
-            `<a href="/create">Create</a> <a href="/update?id=${title}">Update</a>`);
+            `<a href="/create">Create</a> <a href="/update?id=${title}">Update</a> 
+            <form action="/delete_process" method="post">
+                <input type="hidden" name="id" value="${title}">
+                <input type="submit" value="Delete">
+            </form>`);
           response.writeHead(200);
           response.end(template);
         });
@@ -141,6 +145,22 @@ const app = http.createServer(function (request, response) {
           response.end();
         })
       });
+    });
+  } else if (pathname === '/delete_process') {
+    let body = '';
+    request.on('data', (data) => {
+      body = body + data;
+    });
+    request.on('end', () => {
+      let post = qs.parse(body);
+      let id = post.id;
+
+      fs.unlink(`./data/${id}`, (error) => {
+        response.writeHead(302, {
+          Location: '/'
+        });
+        response.end();
+      } )
     });
   } else {
     response.writeHead(404);
