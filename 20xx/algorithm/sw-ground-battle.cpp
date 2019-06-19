@@ -29,7 +29,7 @@ struct Team {
 
 struct Team team[101];
 
-int ccw(long x1, long y1, long x2, long y2, long x3, long y3) {
+long ccw(long x1, long y1, long x2, long y2, long x3, long y3) {
   return (x2 - x1) * (y3 - y1) - (x3 - x1) * (y2 - y1);
 }
 
@@ -74,7 +74,7 @@ void move() {
     team[i].p2.x /= 2;
     team[i].p2.y /= 2;
 
-    // printf("team %d\n", i);
+    // printf("team position after moving %d\n", i);
     // printf("- p1 (%ld, %ld)\n", team[i].p1.x, team[i].p1.y);
     // printf("- p2 (%ld, %ld)\n", team[i].p2.x, team[i].p2.y);
   }
@@ -159,7 +159,7 @@ int main() {
 
     doBattle(0);
     for(j = 1; j <= 31; j++) {
-      move();
+      move(team);
       if(j == 10 || j == 20 || j == 30) {
         escape(j);
       } 
