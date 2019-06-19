@@ -146,17 +146,17 @@ int main() {
   for(i = 1; i <= T; i++) {
     scanf("%d", &N);
     for(j = 1; j <= N; j++) {
-      scanf("%d %d %d %d", &team[j].p1.x, &team[j].p1.y, &team[j].p2.x, &team[j].p2.y);
+      scanf("%ld %ld %ld %ld", &team[j].p1.x, &team[j].p1.y, &team[j].p2.x, &team[j].p2.y);
       team[j].gameover = 32;
       team[j].isOver = -1;
     }
     // 입력값 확인
     /*
     for(j = 1; j <= N; j++) {
-      printf("%d %d %d %d\n", team[j].p1.x, team[j].p1.y, team[j].p2.x, team[j].p2.y);
+      printf("%ld %ld %ld %ld\n", team[j].p1.x, team[j].p1.y, team[j].p2.x, team[j].p2.y);
     }
      */
-
+ 
     doBattle(0);
     for(j = 1; j <= 31; j++) {
       move(team);
