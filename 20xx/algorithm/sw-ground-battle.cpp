@@ -1,5 +1,5 @@
 /*
-2
+3
 2
 6 -15 0 -20
 4 8 -3 15
@@ -9,6 +9,17 @@
 1 8 6 13
 22 -8 19 0
 6 15 -1 17
+10
+1 6 0 0
+10 5 8 -4
+6 20 -3 16
+-15 21 -17 16
+20 0 23 6
+8 9 15 15
+2 -19 5 -10
+2 5 -3 8
+-11 -2 -19 2
+-11 -24 -14 -21
 */
 #include <stdio.h>
 #include <algorithm>
@@ -51,15 +62,9 @@ int isCross(long x1, long y1, long x2, long y2, long x3, long y3, long x4, long 
   // printf("- ccw_p1p2p4 : %ld\n", ccw_p1p2p4);
   // printf("- ccw_p3p4p1 : %ld\n", ccw_p3p4p1);
   // printf("- ccw_p3p4p2 : %ld\n", ccw_p3p4p2);
-
-  if((ccw_p1p2p3 > 0 && ccw_p1p2p4 < 0 || ccw_p1p2p3 < 0 && ccw_p1p2p4 > 0) &&
-    (ccw_p3p4p1 > 0 && ccw_p3p4p2 < 0 || ccw_p3p4p1 < 0 && ccw_p3p4p2 > 0)) {
-    return 1;
-  }
-
+  
   if(ccw_p1p2p3 == 0 && ccw_p1p2p4 == 0 && ccw_p3p4p1 == 0 && ccw_p3p4p2 == 0) return 1;
-
-  return -1;
+  return (ccw_p1p2p3*ccw_p1p2p4 <= 0 && ccw_p3p4p1*ccw_p3p4p2 <=0) ? 1 : -1;
 }
 
 void escape(int turn) {
