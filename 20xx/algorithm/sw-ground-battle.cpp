@@ -34,6 +34,12 @@ long ccw(long x1, long y1, long x2, long y2, long x3, long y3) {
 }
 
 int isCross(long x1, long y1, long x2, long y2, long x3, long y3, long x4, long y4) {
+
+  if(max(x1, x2) < min(x3, x4)) return -1;
+  if(min(x1, x2) > max(x3, x4)) return -1;
+  if(max(y1, y2) < min(y3, y4)) return -1;
+  if(min(y1, y2) > max(y3, y4)) return -1;
+
   long ccw_p1p2p3 = ccw(x1, y1, x2, y2, x3, y3);
   long ccw_p1p2p4 = ccw(x1, y1, x2, y2, x4, y4);
 
@@ -51,18 +57,8 @@ int isCross(long x1, long y1, long x2, long y2, long x3, long y3, long x4, long 
     return 1;
   }
 
-  if(ccw_p1p2p3 == 0) {
-    if(x3 <= max(x1, x2) && x3 >= min(x1, x2) && y3 <= max(y1, y2) && y3 >= min(y1, y2)) return 1;
-  }
-  if(ccw_p1p2p4 == 0) {
-    if(x4 <= max(x1, x2) && x4 >= min(x1, x2) && y4 <= max(y1, y2) && y4 >= min(y1, y2)) return 1;
-  }
-  if(ccw_p3p4p1 == 0) {
-    if(x1 <= max(x3, x4) && x1 >= min(x3, x4) && y1 <= max(y3, y4) && y1 >= min(y3, y4)) return 1;
-  }
-  if(ccw_p3p4p2 == 0) {
-    if(x2 <= max(x3, x4) && x2 >= min(x3, x4) && y2 <= max(y3, y4) && y2 >= min(y3, y4)) return 1;
-  }
+  if(ccw_p1p2p3 == 0 && ccw_p1p2p4 == 0 && ccw_p3p4p1 == 0 && ccw_p3p4p2 == 0) return 1;
+
   return -1;
 }
 
