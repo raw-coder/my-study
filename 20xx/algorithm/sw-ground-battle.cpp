@@ -30,7 +30,7 @@ int T, N; // T: # test case, N: # teams
 
 struct Point {
   long x, y;
-} P = {0, 0};
+} P;
 
 struct Team {
     struct Point p1, p2;
@@ -56,15 +56,21 @@ int isCross(long x1, long y1, long x2, long y2, long x3, long y3, long x4, long 
 
   long ccw_p3p4p1 = ccw(x3, y3, x4, y4, x1, y1);
   long ccw_p3p4p2 = ccw(x3, y3, x4, y4, x2, y2);
-
-  // printf("isCross: (%ld, %ld), (%ld, %ld) - (%ld, %ld), (%ld, %ld)\n", x1, y1, x2, y2, x3, y3, x4, y4);
-  // printf("- ccw_p1p2p3 : %ld\n", ccw_p1p2p3);
-  // printf("- ccw_p1p2p4 : %ld\n", ccw_p1p2p4);
-  // printf("- ccw_p3p4p1 : %ld\n", ccw_p3p4p1);
-  // printf("- ccw_p3p4p2 : %ld\n", ccw_p3p4p2);
-  
+/*
+  printf("isCross: (%ld, %ld), (%ld, %ld) - (%ld, %ld), (%ld, %ld)\n", x1, y1, x2, y2, x3, y3, x4, y4);
+   printf("- ccw_p1p2p3 : %ld\n", ccw_p1p2p3);
+   printf("- ccw_p1p2p4 : %ld\n", ccw_p1p2p4);
+   printf("- ccw_p3p4p1 : %ld\n", ccw_p3p4p1);
+   printf("- ccw_p3p4p2 : %ld\n", ccw_p3p4p2);
+*/  
   if(ccw_p1p2p3 == 0 && ccw_p1p2p4 == 0 && ccw_p3p4p1 == 0 && ccw_p3p4p2 == 0) return 1;
-  return (ccw_p1p2p3*ccw_p1p2p4 <= 0 && ccw_p3p4p1*ccw_p3p4p2 <=0) ? 1 : -1;
+    
+  if((ccw_p1p2p3 > 0 && ccw_p1p2p4 < 0 || ccw_p1p2p3 < 0 && ccw_p1p2p4 > 0 || ccw_p1p2p3 == 0 || ccw_p1p2p4 == 0)&&
+     (ccw_p3p4p1 > 0 && ccw_p3p4p2 < 0 || ccw_p3p4p1 < 0 && ccw_p3p4p2 > 0 || ccw_p3p4p1 == 0 || ccw_p3p4p2 == 0)) return 1;
+    
+     return -1;
+    
+  // return (ccw_p1p2p3*ccw_p1p2p4 <= 0 && ccw_p3p4p1*ccw_p3p4p2 <=0) ? 1 : -1;
 }
 
 void escape(int turn) {
@@ -110,7 +116,7 @@ void doBattle(int turn) {
   for(i = 1; i <= N - 1; i++) {
     for(j = i + 1; j <= N; j++) {
       if(i == j) continue;
-      if(team[i].isOver == 1 || team[j].isOver == 1) continue;
+      if(team[i].isOver == 1 || team[j].isOver == 1) continue; 
       if(team[i].p1.x == team[j].p1.x && team[i].p1.y == team[j].p1.y
         || team[i].p1.x == team[j].p2.x && team[i].p1.y == team[j].p2.y
         || team[i].p2.x == team[j].p1.x && team[i].p2.y == team[j].p1.y
@@ -130,6 +136,7 @@ void doBattle(int turn) {
 int main() {
   int i, j, k;
   scanf("%d", &T);
+    
   for(i = 1; i <= T; i++) {
     scanf("%d", &N);
     for(j = 1; j <= N; j++) {
@@ -140,18 +147,19 @@ int main() {
     // 입력값 확인
     /*
     for(j = 1; j <= N; j++) {
-      printf("%ld %ld %ld %ld\n", team[j].p1.x, team[j].p1.y, team[j].p2.x, team[j].p2.y);
+        if(i == 9  && (j == 2 || j == 11))
+         printf("%ld %ld %ld %ld\n", team[j].p1.x, team[j].p1.y, team[j].p2.x, team[j].p2.y);
     }
-     */
- 
+    */
+         
     doBattle(0);
     for(j = 1; j <= 31; j++) {
       
       for(k = 1; k <= N; k++) {
-        team[k].p1.x /= 2;
-        team[k].p1.y /= 2;
-        team[k].p2.x /= 2;
-        team[k].p2.y /= 2;
+        team[k].p1.x /= 2L;
+        team[k].p1.y /= 2L;
+        team[k].p2.x /= 2L;
+        team[k].p2.y /= 2L;
 
         // printf("team position after moving %d\n", k);
         // printf("- p1 (%ld, %ld)\n", team[k].p1.x, team[k].p1.y);
@@ -171,6 +179,7 @@ int main() {
     }
     printf("\n");
   }
+  
   return 0;
 }
 
