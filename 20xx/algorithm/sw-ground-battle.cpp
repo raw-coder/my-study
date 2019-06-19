@@ -66,20 +66,6 @@ int isCross(long x1, long y1, long x2, long y2, long x3, long y3, long x4, long 
   return -1;
 }
 
-void move() {
-  int i, j;
-  for(i = 1; i <= N; i++) {
-    team[i].p1.x /= 2;
-    team[i].p1.y /= 2;
-    team[i].p2.x /= 2;
-    team[i].p2.y /= 2;
-
-    // printf("team position after moving %d\n", i);
-    // printf("- p1 (%ld, %ld)\n", team[i].p1.x, team[i].p1.y);
-    // printf("- p2 (%ld, %ld)\n", team[i].p2.x, team[i].p2.y);
-  }
-}
-
 void escape(int turn) {
   int i, j;
   for(i = 1; i <= N - 1; i++) {
@@ -141,7 +127,7 @@ void doBattle(int turn) {
 }
 
 int main() {
-  int i, j;
+  int i, j, k;
   scanf("%d", &T);
   for(i = 1; i <= T; i++) {
     scanf("%d", &N);
@@ -159,7 +145,18 @@ int main() {
  
     doBattle(0);
     for(j = 1; j <= 31; j++) {
-      move(team);
+      
+      for(k = 1; k <= N; k++) {
+        team[k].p1.x /= 2;
+        team[k].p1.y /= 2;
+        team[k].p2.x /= 2;
+        team[k].p2.y /= 2;
+
+        // printf("team position after moving %d\n", k);
+        // printf("- p1 (%ld, %ld)\n", team[k].p1.x, team[k].p1.y);
+        // printf("- p2 (%ld, %ld)\n", team[k].p2.x, team[k].p2.y);
+      }
+
       if(j == 10 || j == 20 || j == 30) {
         escape(j);
       } 
