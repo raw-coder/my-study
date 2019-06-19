@@ -45,32 +45,25 @@ long ccw(long x1, long y1, long x2, long y2, long x3, long y3) {
 }
 
 int isCross(long x1, long y1, long x2, long y2, long x3, long y3, long x4, long y4) {
-
+  // 떨어져있는 선분 체크
   if(max(x1, x2) < min(x3, x4)) return -1;
   if(min(x1, x2) > max(x3, x4)) return -1;
   if(max(y1, y2) < min(y3, y4)) return -1;
   if(min(y1, y2) > max(y3, y4)) return -1;
 
+  // ccw 체크
   long ccw_p1p2p3 = ccw(x1, y1, x2, y2, x3, y3);
   long ccw_p1p2p4 = ccw(x1, y1, x2, y2, x4, y4);
 
   long ccw_p3p4p1 = ccw(x3, y3, x4, y4, x1, y1);
   long ccw_p3p4p2 = ccw(x3, y3, x4, y4, x2, y2);
-/*
-  printf("isCross: (%ld, %ld), (%ld, %ld) - (%ld, %ld), (%ld, %ld)\n", x1, y1, x2, y2, x3, y3, x4, y4);
-   printf("- ccw_p1p2p3 : %ld\n", ccw_p1p2p3);
-   printf("- ccw_p1p2p4 : %ld\n", ccw_p1p2p4);
-   printf("- ccw_p3p4p1 : %ld\n", ccw_p3p4p1);
-   printf("- ccw_p3p4p2 : %ld\n", ccw_p3p4p2);
-*/  
+
   if(ccw_p1p2p3 == 0 && ccw_p1p2p4 == 0 && ccw_p3p4p1 == 0 && ccw_p3p4p2 == 0) return 1;
     
   if((ccw_p1p2p3 > 0 && ccw_p1p2p4 < 0 || ccw_p1p2p3 < 0 && ccw_p1p2p4 > 0 || ccw_p1p2p3 == 0 || ccw_p1p2p4 == 0)&&
      (ccw_p3p4p1 > 0 && ccw_p3p4p2 < 0 || ccw_p3p4p1 < 0 && ccw_p3p4p2 > 0 || ccw_p3p4p1 == 0 || ccw_p3p4p2 == 0)) return 1;
     
-     return -1;
-    
-  // return (ccw_p1p2p3*ccw_p1p2p4 <= 0 && ccw_p3p4p1*ccw_p3p4p2 <=0) ? 1 : -1;
+  return -1;
 }
 
 void escape(int turn) {
@@ -143,8 +136,7 @@ int main() {
         if(i == 9  && (j == 2 || j == 11))
          printf("%ld %ld %ld %ld\n", team[j].p1.x, team[j].p1.y, team[j].p2.x, team[j].p2.y);
     }
-    */
-         
+    */         
     doBattle(0);
     for(j = 1; j <= 31; j++) {
       
@@ -153,25 +145,11 @@ int main() {
         team[k].p1.y /= 2;
         team[k].p2.x /= 2;
         team[k].p2.y /= 2;
-
-        // printf("team position after moving %d\n", k);
-        // printf("- p1 (%ld, %ld)\n", team[k].p1.x, team[k].p1.y);
-        // printf("- p2 (%ld, %ld)\n", team[k].p2.x, team[k].p2.y);
       }
 
       if(j == 10 || j == 20 || j == 30) {
         escape(j);
-      }
-        
-        /*
-      for(k = 1; k <= N; k++) {
-        //if(i == 4  && j == 27)
-          if(i == 4  && (k == 3 || k == 5 || k == 15))
-         printf("%d - %d : %ld %ld %ld %ld\n", j, k, team[k].p1.x, team[k].p1.y, team[k].p2.x, team[k].p2.y);
-      }
-      */
-        
-        
+      } 
       doBattle(j);
     }
 
