@@ -40,11 +40,11 @@ int isCross(long x1, long y1, long x2, long y2, long x3, long y3, long x4, long 
   long ccw_p3p4p1 = ccw(x3, y3, x4, y4, x1, y1);
   long ccw_p3p4p2 = ccw(x3, y3, x4, y4, x2, y2);
 
-  // printf("isCross: (%d, %d), (%d, %d) - (%d, %d), (%d, %d)\n", x1, y1, x2, y2, x3, y3, x4, y4);
-  // printf("- ccw_p1p2p3 : %d\n", ccw_p1p2p3);
-  // printf("- ccw_p1p2p4 : %d\n", ccw_p1p2p4);
-  // printf("- ccw_p3p4p1 : %d\n", ccw_p3p4p1);
-  // printf("- ccw_p3p4p2 : %d\n", ccw_p3p4p2);
+  // printf("isCross: (%ld, %ld), (%ld, %ld) - (%ld, %ld), (%ld, %ld)\n", x1, y1, x2, y2, x3, y3, x4, y4);
+  // printf("- ccw_p1p2p3 : %ld\n", ccw_p1p2p3);
+  // printf("- ccw_p1p2p4 : %ld\n", ccw_p1p2p4);
+  // printf("- ccw_p3p4p1 : %ld\n", ccw_p3p4p1);
+  // printf("- ccw_p3p4p2 : %ld\n", ccw_p3p4p2);
 
   if((ccw_p1p2p3 > 0 && ccw_p1p2p4 < 0 || ccw_p1p2p3 < 0 && ccw_p1p2p4 > 0) &&
     (ccw_p3p4p1 > 0 && ccw_p3p4p2 < 0 || ccw_p3p4p1 < 0 && ccw_p3p4p2 > 0)) {
@@ -73,6 +73,10 @@ void move() {
     team[i].p1.y /= 2;
     team[i].p2.x /= 2;
     team[i].p2.y /= 2;
+
+    // printf("team %d\n", i);
+    // printf("- p1 (%ld, %ld)\n", team[i].p1.x, team[i].p1.y);
+    // printf("- p2 (%ld, %ld)\n", team[i].p2.x, team[i].p2.y);
   }
 }
 
