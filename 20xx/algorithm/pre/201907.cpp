@@ -25,13 +25,17 @@
 2 3 15
 2 4 943
 3 4 4
+
+#1 5
+#2 17
  */
 
 #include <stdio.h>
 
 int T, N, Q;
 int SUM;
-int p[4][100001];
+int p[3][100001];
+long long c[100001];
 
 int minByCap(int a, int b, int c, int cap) {
     int min = 12345678;
@@ -44,20 +48,20 @@ int minByCap(int a, int b, int c, int cap) {
 void init() {
     N = Q = SUM = 0;
     for(int i = 1; i <= 100000; i++) {
-        p[0][i] = p[1][i] = p[2][i] = p[3][i] = 0;
+        p[0][i] = p[1][i] = p[2][i] = 0;
+        c[i] = 0;
     }
 }
 
 void fill(int x, int y, int k, int c) {
     for(int i = x; i <= y; i++) {
-        p[k][i] += c;  
+        p[k - 1][i] += c;  
     }
 }
 
 void sell(int x, int c) {
-    int toSell = minByCap(p[1][x], p[2][x], p[3][x], c);
+    int toSell = minByCap(p[0][x], p[1][x], p[2][x], c);
 
-    // printf("to sell : %d\n", toSell);
     p[1][x] -= toSell;
     p[2][x] -= toSell;
     p[3][x] -= toSell;
@@ -91,24 +95,7 @@ int main() {
                 check(x, y);
             }
         }
-        printf("#%d %d\n", T, SUM);
-        /*
-        for(int l = 1; l <= N; l++) {
-            printf("%d ", p[1][l]);
-        }
-        printf("\n");
-        for(int l = 1; l <= N; l++) {
-            printf("%d ", p[2][l]);
-        }
-        printf("\n");
-        for(int l = 1; l <= N; l++) {
-            printf("%d ", p[3][l]);
-        }
-        printf("\n");
-        for(int l = 1; l <= N; l++) {
-            printf("%d ", p[0][l]);
-        }
-        */
+        printf("#%d %d\n", t, SUM);
     }
     return 1;
 }
