@@ -1,7 +1,0 @@
-{
-    "C_Cpp.intelliSenseEngineFallback": "Disabled",
-    "editor.tabSize": 2,
-    "files.associations": {
-        "string": "cpp"
-    }
-}
