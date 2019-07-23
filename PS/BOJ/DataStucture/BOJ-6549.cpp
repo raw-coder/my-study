@@ -2,6 +2,7 @@
 BOJ 6549 히스토그램에서 가장 큰 직사각형
 
 스택을 이용한 풀이
+TODO : 이해하기
 */
 #include <stdio.h>
 #include <stack>
