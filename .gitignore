@@ -4,3 +4,6 @@
 **/*.exe
 */**/.vscode/**
 .vscode
+
+!*/**/BOJ/*.*
+*/**/BOJ/*
