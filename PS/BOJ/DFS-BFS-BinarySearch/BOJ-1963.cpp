@@ -3,12 +3,11 @@ BOJ 1963 소수 경로
 
 소수의 성질(에라토스테네스 체)
 BFS 를 사용한 풀이
-//TODO
 */
 #include <stdio.h>
 #include <queue>
-#include <set>
-#define MAX_NUM 10000
+#include <algorithm>
+#define MAX_NUM 9999
 
 using namespace std;
 
@@ -26,49 +25,81 @@ void initPrime() {
   }
 }
 
-void bfs(int node) {
-  queue<int> q;
-  q.push(node);
-  visited[node] = true;
-  
-  int i, j;
+int bfs(int number, int target) {
+  visited[number] = true;
+  queue<pair<int, int>> q;
+  q.push(make_pair(number, 0));
+  int d3, d2, d1, d0;
+  int newNum;
+  int i;
+  int ret = -1;
+
   while(!q.empty()) {
-
+    pair <int, int> parentNode = q.front(); 
     q.pop();
+    int parent = parentNode.first;
+    int depth = parentNode.second;
+    
+    if(parent == target) {
+      ret = depth;
+      break;
+    }
+    d3 = parent / 1000;
+    d2 = (parent - d3 * 1000) / 100;
+    d1 = (parent - d3 * 1000 - d2 * 100) / 10;
+    d0 = (parent - d3 * 1000 - d2 * 100 - d1 * 10);
 
-    for(i = 1; i <= 1000; i *= 10) {
-      for(j = 0; j <= 9; j++) {
-
+    // 1000의 자리
+    for(i = 1; i <= 9; i++) {
+      newNum = parent - 1000 * d3 + 1000 * i;
+      if(!visited[newNum] && !isNotPrime[newNum]) {
+        visited[newNum] = true;
+        q.push(make_pair(newNum, depth + 1));
+      }
+    }
+    // 100의 자리
+    for(i = 0; i <= 9; i++) {
+      newNum = parent - 100 * d2 + 100 * i;
+      if(!visited[newNum] && !isNotPrime[newNum]) {
+        visited[newNum] = true;
+        q.push(make_pair(newNum, depth + 1));
+      }
+    }
+    // 10 의 자리
+    for(i = 0; i <= 9; i++) {
+      newNum = parent - 10 * d1 + 10 * i;
+      if(!visited[newNum] && !isNotPrime[newNum]) {
+        visited[newNum] = true;
+        q.push(make_pair(newNum, depth + 1));
+      }
+    }
+    // 1의 자리
+    for(i = 0; i <= 9; i++) {
+      newNum = parent - d0 + i;
+      if(!visited[newNum] && !isNotPrime[newNum]) {
+        visited[newNum] = true;
+        q.push(make_pair(newNum, depth + 1));
       }
     }
   }
-}
-
-bool is3digitsSame(int a, int b) {
-  int arrA[4], arrB[4];
-  int i, j;
-  int count = 0;
-  set<int> set;
-
-  for(i = 3; i > 0; i++) {
-    set.insert(a % 10);
-    a /= 10;
-    // arrB[i] = b % 10;
-    // b /= 10;
-  }
-  for(i = 0; i < 4; i++) {
-    for(j = 0; j < 4; j++) {
-      if(arrA[i] == arrB[j]) {
-        count++;
-      }
-    }
-  }
-
-
+  return ret;
 }
 
 int main() {
   initPrime();
-
+  int T, from, to, steps, i;
+  scanf("%d", &T);
+  while(T--) {
+    scanf("%d %d", &from, &to);
+    steps = bfs(from, to);
+    if(steps == -1) {
+      printf("Impossible\n");
+    } else {
+      printf("%d\n", steps);
+    }
+    for(i = 1000; i <= MAX_NUM; i++) {
+      visited[i] = false;
+    }
+  }
   return 0;
 }
