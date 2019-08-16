@@ -26,10 +26,6 @@ struct Node {
   }
 };
 
-int min(int a, int b) {
-  return a < b ? a : b;
-}
-
 vector<Edge> edges[MAX_NODES + 1];
 int nodes[MAX_NODES + 1];
 priority_queue<Node, vector<Node>, greater<Node>> pq;
