@@ -37,8 +37,8 @@ void update_range(int node, int start, int end, int left, int right, ll diff) {
 
 ll sum(int node, int start, int end, int left, int right) {
   update_lazy(node, start, end);
-  if(left > end || right < start) return;
+  if(left > end || right < start) return 0;
   if(left <= start && end <= right) return tree[node];
-  int mid = (end - start) / 2;
-  return sum(node * 2, start, mid, left, right) + sum(node * 2 + 1, mid + 1, right, left, right);
+  int mid = (start + end) / 2;
+  return sum(node * 2, start, mid, left, right) + sum(node * 2 + 1, mid + 1, end, left, right);
 }
