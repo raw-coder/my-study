@@ -16,7 +16,7 @@ struct Query {
   int from;
   int to;
   int height;
-  int sum;
+  long long sum;
 };
 
 bool compareNode(Node n1, Node n2) {
@@ -27,12 +27,19 @@ bool compareQuery(Query q1, Query q2) {
   return q1.height > q2.height;
 }
 
+bool compareQueryByIdx(Query q1, Query q2) {
+  return q1.idx < q2.idx;
+}
 
-void update(int node) {
+void update(int node, int start, int end, int position) {
   tree[node]++;
-  printf("## update : %d %d\n", node, tree[node]);
-  if(node == 1) return;
-  update(node / 2);
+  if(start == end) return;
+  int mid = (start + end) / 2;
+  if(mid < position) {
+    update(node * 2 + 1, mid + 1, end, position);
+  } else {
+    update(node * 2, start, mid, position);
+  }
 }
 
 long long sum(int node, int start, int end, int left, int right) {
@@ -43,14 +50,7 @@ long long sum(int node, int start, int end, int left, int right) {
   return sum(node * 2, start, mid, left, right) + sum(node * 2 + 1, mid + 1, end, left, right);
 }
 
-void printTree() {
-  // for(int i = 1; i < idx * 2; i++) {
-
-  // }
-}
-
 int T, n, q;
-int val[MAX_NODES + 1];
 vector<Query> queries;
 vector<Node> heights;
 
@@ -100,37 +100,46 @@ int main() {
       printf("%d\n", q.height);
     }
     */
-
-    
     
     int idxH = 0;
     int idxQ = 0;
+    while(true) {
+      if(queries[idxQ].height < heights[idxH].height) {
+        // printf("##start update : %d\n", heights[idxH].idx);
+        update(1, 1, idx, heights[idxH].idx);
+        idxH++;
+      } else {
+        break;
+      }
+    }
     while(idxQ < q && idxH < n) {
       //printf("q(%d)-%d vs h(%d)-%d\n", idxQ, queries[idxQ].height, heights[idxH].idx, heights[idxH].height);
-      if(queries[idxQ].height > heights[idxH].height) {
+      if(queries[idxQ].height < heights[idxH].height) {
+        // update
+        // printf("##start update : %d\n", heights[idxH].idx);
+        update(1, 1, idx, heights[idxH].idx);
+        idxH++;
+      } else {
         // sum
         queries[idxQ].sum = sum(1, 1, idx, queries[idxQ].from, queries[idxQ].to); 
         idxQ++;
-      } else {
-        // update
-        printf("##start update : %d\n", heights[idxH].idx);
-        update(heights[idxH].idx + idx - 1);
-        idxH++;
       }
     }
     while(idxQ < q) {
       queries[idxQ].sum = sum(1, 1, idx, queries[idxQ].from, queries[idxQ].to); 
       idxQ++;
     }
+
+    sort(queries.begin(), queries.end(), compareQueryByIdx);
+
     printf("#%d ", t);
     for(int i = 0; i < q; i++) {
-      printf("%d ", queries[i].sum);
+      printf("%lld ", queries[i].sum);
     }
     printf("\n");
     for(int i = 0; i <= MAX_NODES; i++) {
       tree[i] = 0;
     }
-    
   }
 }
 

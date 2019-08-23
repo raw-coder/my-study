@@ -47,7 +47,7 @@ int main() {
     scanf("%d %d %d", &a, &b, &c);
     edges.push_back(Edge(a, b, c));
   }
-  sort(edges.begin(), edges.end(), compare);
+  sort(edges.begin(), edges.end(), compare); // cost 기준 정렬
   int n = 0, sum = 0;
   for(int i = 0; i < e; i++) {
     if(uf.find(edges[i].u) != uf.find(edges[i].v)) {
