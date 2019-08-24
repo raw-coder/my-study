@@ -4,17 +4,13 @@ BOJ 2042 구간합구하기
 */
 #include <stdio.h>
 
-int tree[1000000 * 4];
+long long tree[1000000 * 4];
 
 void update(int node, int start, int end, int left, int right, int delta) {
-  printf("update node[%d] : %d ~ %d %d ~ %d\n", node, start, end, left, right);
   if(left > end || right < start) return;
   
-  if(left <= start && end <= right) {
-    tree[node] += delta;
-    // printf("node[%d] updated \n", node);
-    return;
-  }
+  tree[node] += delta;
+  if(left <= start && end <= right) return;
   int mid = (start + end) / 2;
   update(node * 2, start, mid, left, right, delta);
   update(node * 2 + 1, mid + 1, end, left, right, delta);
@@ -38,7 +34,7 @@ int main() {
   }
 
   for(int i = idx; i <= idx + n - 1; i++) {
-    scanf("%d", &tree[i]);
+    scanf("%lld", &tree[i]);
   }
   for(int i = idx - 1; i >= 1; i--) {
     tree[i] = tree[i * 2] + tree[i * 2 + 1];
@@ -47,9 +43,9 @@ int main() {
   for(int i = 1; i <= m + k; i++) {
     scanf("%d %d %d", &a, &b, &c);
     if(a == 1) {
-      update(1, 1, idx, b, b, c- tree[b]);
+      update(1, 1, idx, b, b, c - tree[idx + b - 1]);
     } else {
-      printf("%d\n", sum(1, 1, idx, b, c));
+      printf("%lld\n", sum(1, 1, idx, b, c));
     }
   }
   return 0;
