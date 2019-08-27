@@ -10,6 +10,8 @@ Dijkstra 단순 구현
 #define INF __INT_MAX__
 #define MAX_NODES 20000
 
+
+
 using namespace std;
 
 struct Edge {
@@ -34,7 +36,7 @@ void dijkstra() {
   while(!pq.empty()) {
     Node now = pq.top();
     pq.pop();
-    if(now.d > nodes[now.idx]) continue;
+    if(now.d > \\\\\\\\||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||es[now.idx]) continue;
     if(nodes[now.idx] == INF) continue;
     for(Edge e: edges[now.idx]) {
       if(nodes[e.to] > nodes[now.idx] + e.w) {
